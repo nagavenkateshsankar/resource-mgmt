@@ -1,0 +1,76 @@
+{{define "inspections-page-content"}}
+<div id="inspections-page" class="page active">
+    <div class="page-header">
+        <h2>Inspections</h2>
+        <div class="page-actions">
+            <button id="filter-btn" class="btn btn-secondary">🔍 Filter</button>
+            <button id="create-inspection-btn" class="btn btn-primary">➕ New Inspection</button>
+        </div>
+    </div>
+    
+    <!-- Filter Panel -->
+    <div id="filter-panel" class="data-table-filters" style="display: none;">
+        <div class="filter-row">
+            {{template "select" dict "ID" "status-filter" "Placeholder" "All Status" "Options" (list 
+                (dict "Value" "draft" "Text" "Draft")
+                (dict "Value" "in_progress" "Text" "In Progress")
+                (dict "Value" "completed" "Text" "Completed")
+                (dict "Value" "overdue" "Text" "Overdue")
+            )}}
+            
+            {{template "select" dict "ID" "priority-filter" "Placeholder" "All Priority" "Options" (list
+                (dict "Value" "low" "Text" "Low")
+                (dict "Value" "medium" "Text" "Medium") 
+                (dict "Value" "high" "Text" "High")
+            )}}
+            
+            <div class="filter-actions">
+                <button id="apply-filters-btn" class="btn btn-primary">Apply</button>
+                <button id="clear-filters-btn" class="btn btn-secondary">Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inspections Data Table -->
+    {{template "data-table" dict
+        "ID" "inspections-table"
+        "Title" "All Inspections"
+        "ShowHeader" true
+        "ShowFilters" false
+        "SearchEnabled" true
+        "SearchPlaceholder" "Search inspections..."
+        "SelectionEnabled" true
+        "ShowActions" true
+        "ShowPagination" true
+        "Striped" true
+        "Hover" true
+        "Columns" (list
+            (dict "Key" "title" "Title" "Title" "Sortable" true)
+            (dict "Key" "location" "Title" "Location" "Sortable" true "Class" "mobile-hidden")
+            (dict "Key" "status" "Title" "Status" "Sortable" true)
+            (dict "Key" "assignee" "Title" "Assignee" "Sortable" true "Class" "mobile-hidden")
+            (dict "Key" "due_date" "Title" "Due Date" "Sortable" true)
+            (dict "Key" "progress" "Title" "Progress" "Sortable" true "Class" "mobile-hidden")
+        )
+        "Actions" (list
+            (dict "Text" "Export" "Class" "btn-secondary" "Action" "export-inspections")
+            (dict "Text" "Import" "Class" "btn-secondary" "Action" "import-inspections")
+        )
+        "LoadingState" true
+        "LoadingMessage" "Loading inspections..."
+        "EmptyMessage" "No inspections found"
+        "EmptyAction" (dict "Text" "Create First Inspection" "Action" "create-first-inspection")
+    }}
+
+    <!-- Inspection Cards View (Alternative view) -->
+    <div id="inspections-cards" class="component-grid grid-cols-1" style="display: none;">
+        <!-- Cards will be populated by JavaScript using the inspection-card template -->
+    </div>
+</div>
+
+<!-- Template Selection Modal -->
+{{template "template-selection-modal"}}
+
+<!-- Confirmation Modal -->
+{{template "confirmation-modal"}}
+{{end}}

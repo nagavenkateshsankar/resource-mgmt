@@ -1,0 +1,31 @@
+{{define "text-input"}}
+<div class="form-group">
+    {{if .Label}}
+    <label for="{{.ID}}" class="form-label {{if .Required}}required{{end}}">
+        {{.Label}}
+        {{if .Required}}<span class="required-indicator">*</span>{{end}}
+    </label>
+    {{end}}
+    <input 
+        type="{{if .Type}}{{.Type}}{{else}}text{{end}}" 
+        id="{{.ID}}" 
+        name="{{if .Name}}{{.Name}}{{else}}{{.ID}}{{end}}" 
+        class="form-control {{if .Size}}form-control-{{.Size}}{{end}} {{if .ValidationState}}is-{{.ValidationState}}{{end}}"
+        {{if .Placeholder}}placeholder="{{.Placeholder}}"{{end}}
+        {{if .Value}}value="{{.Value}}"{{end}}
+        {{if .Required}}required{{end}}
+        {{if .Disabled}}disabled{{end}}
+        {{if .MaxLength}}maxlength="{{.MaxLength}}"{{end}}
+        {{if .Pattern}}pattern="{{.Pattern}}"{{end}}
+        {{range $key, $value := .Attributes}}{{$key}}="{{$value}}" {{end}}
+    >
+    {{if .HelpText}}
+    <div class="form-text">{{.HelpText}}</div>
+    {{end}}
+    {{if .ValidationMessage}}
+    <div class="{{if eq .ValidationState "valid"}}valid-feedback{{else}}invalid-feedback{{end}}">
+        {{.ValidationMessage}}
+    </div>
+    {{end}}
+</div>
+{{end}}

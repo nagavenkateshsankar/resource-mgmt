@@ -1,0 +1,29 @@
+{{define "base-modal"}}
+<div class="modal" id="{{.ID}}" data-modal="{{.ID}}">
+    <div class="modal-backdrop" data-modal-close="{{.ID}}"></div>
+    <div class="modal-dialog {{if .Size}}modal-{{.Size}}{{end}} {{if .Centered}}modal-centered{{end}}">
+        <div class="modal-content">
+            {{if .ShowHeader}}
+            <div class="modal-header">
+                <h5 class="modal-title">{{.Title}}</h5>
+                <button type="button" class="modal-close" data-modal-close="{{.ID}}" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {{end}}
+            <div class="modal-body">
+                {{.Content}}
+            </div>
+            {{if .ShowFooter}}
+            <div class="modal-footer">
+                {{range .FooterButtons}}
+                <button type="button" class="btn {{.Class}}" {{if .Action}}data-action="{{.Action}}"{{end}} {{if .CloseModal}}data-modal-close="{{$.ID}}"{{end}}>
+                    {{.Text}}
+                </button>
+                {{end}}
+            </div>
+            {{end}}
+        </div>
+    </div>
+</div>
+{{end}}

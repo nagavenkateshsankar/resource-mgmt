@@ -1,0 +1,81 @@
+{{define "page-content"}}
+<!-- Dashboard Page -->
+<div id="dashboard-page" class="page active">
+    <div class="page-header">
+        <h2>Dashboard</h2>
+        <button id="new-inspection-btn" class="btn btn-primary">
+            ➕ New Inspection
+        </button>
+    </div>
+    
+    <!-- Stats Cards Using New Component -->
+    <div class="component-grid grid-cols-4 component-spacing-lg">
+        {{template "stat-card" dict
+            "ID" "total-inspections-card"
+            "Icon" "📊"
+            "IconColor" "primary"
+            "Value" "0"
+            "ValueColor" "primary"
+            "Label" "Total Inspections"
+            "Trend" (dict "Direction" "up" "Value" "12%")
+        }}
+        
+        {{template "stat-card" dict
+            "ID" "completed-inspections-card"
+            "Icon" "✅"
+            "IconColor" "success"
+            "Value" "0"
+            "ValueColor" "success"
+            "Label" "Completed"
+            "Trend" (dict "Direction" "up" "Value" "8%")
+        }}
+        
+        {{template "stat-card" dict
+            "ID" "pending-inspections-card"
+            "Icon" "⏳"
+            "IconColor" "warning"
+            "Value" "0"
+            "ValueColor" "warning"
+            "Label" "In Progress"
+            "Trend" (dict "Direction" "neutral" "Value" "2%")
+        }}
+        
+        {{template "stat-card" dict
+            "ID" "overdue-inspections-card"
+            "Icon" "⚠️"
+            "IconColor" "danger"
+            "Value" "0"
+            "ValueColor" "danger"
+            "Label" "Overdue"
+            "Trend" (dict "Direction" "down" "Value" "5%")
+        }}
+    </div>
+
+    <!-- Assigned Inspections -->
+    {{template "base-card" dict
+        "ShowHeader" true
+        "Title" "🎯 My Assigned Inspections"
+        "HeaderActions" (list
+            (dict "Text" "View All" "Class" "btn-sm btn-secondary" "Action" "view-all-assigned")
+        )
+        "Content" `<div id="assigned-inspections" class="inspection-list assigned-list">
+            <!-- Populated by JavaScript -->
+        </div>`
+    }}
+
+    <!-- Recent Inspections -->
+    {{template "base-card" dict
+        "ShowHeader" true
+        "Title" "📋 Recent Inspections"
+        "HeaderActions" (list
+            (dict "Text" "View All" "Class" "btn-sm btn-secondary" "Action" "view-all-recent")
+        )
+        "Content" `<div id="recent-inspections" class="inspection-list">
+            <!-- Populated by JavaScript -->
+        </div>`
+    }}
+</div>
+
+<!-- Template Selection Modal -->
+{{template "template-selection-modal"}}
+{{end}}

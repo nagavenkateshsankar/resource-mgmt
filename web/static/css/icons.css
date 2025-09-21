@@ -1,0 +1,163 @@
+/* SVG Icon System - Professional scaling approach */
+
+/* CSS Custom Properties for icon sizing */
+:root {
+    --icon-xs: 12px;
+    --icon-sm: 16px;
+    --icon-md: 24px;
+    --icon-lg: 32px;
+    --icon-xl: 48px;
+    --icon-xxl: 64px;
+}
+
+/* Base SVG icon styles - works with any viewBox size */
+.icon {
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+    fill: currentColor;
+    color: inherit;
+}
+
+/* Icon size classes - CSS controls final display size */
+.icon-xs {
+    width: var(--icon-xs);
+    height: var(--icon-xs);
+}
+
+.icon-sm {
+    width: var(--icon-sm);
+    height: var(--icon-sm);
+}
+
+.icon-md {
+    width: var(--icon-md);
+    height: var(--icon-md);
+}
+
+.icon-lg {
+    width: var(--icon-lg);
+    height: var(--icon-lg);
+}
+
+.icon-xl {
+    width: var(--icon-xl);
+    height: var(--icon-xl);
+}
+
+.icon-xxl {
+    width: var(--icon-xxl);
+    height: var(--icon-xxl);
+}
+
+/* Icon positioning utilities */
+.icon-inline {
+    margin: 0 0.25rem;
+}
+
+.icon-leading {
+    margin-right: 0.5rem;
+}
+
+.icon-trailing {
+    margin-left: 0.5rem;
+}
+
+/* Icon states */
+.icon-interactive {
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.icon-interactive:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
+/* Icon color variants */
+.icon-primary { color: var(--primary, #3b82f6); }
+.icon-secondary { color: var(--secondary, #6b7280); }
+.icon-success { color: var(--success, #10b981); }
+.icon-warning { color: var(--warning, #f59e0b); }
+.icon-danger { color: var(--danger, #ef4444); }
+.icon-info { color: var(--info, #06b6d4); }
+
+/* Button icons - maintain aspect ratio */
+.btn .icon {
+    margin-right: 0.5rem;
+}
+
+.btn .icon:last-child {
+    margin-right: 0;
+    margin-left: 0.5rem;
+}
+
+.btn-icon {
+    padding: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon .icon {
+    margin: 0;
+}
+
+/* Header/Navigation icons */
+.header .icon {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.nav-item .icon {
+    margin-right: 0.75rem;
+}
+
+/* Card/Component icons */
+.card-icon {
+    margin-bottom: 0.5rem;
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Responsive icon sizing */
+@media (max-width: 768px) {
+    :root {
+        --icon-xs: 10px;
+        --icon-sm: 14px;
+        --icon-md: 20px;
+        --icon-lg: 28px;
+        --icon-xl: 40px;
+        --icon-xxl: 56px;
+    }
+}
+
+/* Loading state for icons */
+.icon-loading {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Focus states for accessibility */
+.icon-interactive:focus {
+    outline: 2px solid var(--primary, #3b82f6);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+    .icon {
+        opacity: 0.9;
+    }
+
+    .header .icon {
+        color: rgba(255, 255, 255, 0.95);
+    }
+}

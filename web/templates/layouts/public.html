@@ -1,0 +1,26 @@
+{{define "content"}}
+<!-- Login Screen -->
+<div id="login-screen" class="login-screen">
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Site Inspection Manager</h1>
+            <p>{{if .LoginMessage}}{{.LoginMessage}}{{else}}Sign in to continue{{end}}</p>
+        </div>
+        
+        {{template "page-content" .}}
+        
+        {{if .ShowDemoCredentials}}
+        <div class="demo-credentials">
+            <p><strong>Demo Credentials:</strong></p>
+            <p>Email: admin@resourcemgmt.com</p>
+            <p>Password: password123</p>
+        </div>
+        {{end}}
+    </div>
+</div>
+
+<!-- Notifications Container -->
+<div id="notifications-container" class="notifications-container">
+    <!-- Notifications will be inserted here -->
+</div>
+{{end}}

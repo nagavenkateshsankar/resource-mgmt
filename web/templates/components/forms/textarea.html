@@ -1,0 +1,29 @@
+{{define "textarea"}}
+<div class="form-group">
+    {{if .Label}}
+    <label for="{{.ID}}" class="form-label {{if .Required}}required{{end}}">
+        {{.Label}}
+        {{if .Required}}<span class="required-indicator">*</span>{{end}}
+    </label>
+    {{end}}
+    <textarea 
+        id="{{.ID}}" 
+        name="{{if .Name}}{{.Name}}{{else}}{{.ID}}{{end}}" 
+        class="form-control {{if .Size}}form-control-{{.Size}}{{end}} {{if .ValidationState}}is-{{.ValidationState}}{{end}}"
+        {{if .Placeholder}}placeholder="{{.Placeholder}}"{{end}}
+        {{if .Required}}required{{end}}
+        {{if .Disabled}}disabled{{end}}
+        {{if .MaxLength}}maxlength="{{.MaxLength}}"{{end}}
+        {{if .Rows}}rows="{{.Rows}}"{{else}}rows="3"{{end}}
+        {{range $key, $value := .Attributes}}{{$key}}="{{$value}}" {{end}}
+    >{{.Value}}</textarea>
+    {{if .HelpText}}
+    <div class="form-text">{{.HelpText}}</div>
+    {{end}}
+    {{if .ValidationMessage}}
+    <div class="{{if eq .ValidationState "valid"}}valid-feedback{{else}}invalid-feedback{{end}}">
+        {{.ValidationMessage}}
+    </div>
+    {{end}}
+</div>
+{{end}}

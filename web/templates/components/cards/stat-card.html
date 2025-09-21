@@ -1,0 +1,40 @@
+{{define "stat-card"}}
+<div class="stat-card {{if .Class}}{{.Class}}{{end}} {{if .Variant}}stat-card-{{.Variant}}{{end}}" {{if .ID}}id="{{.ID}}"{{end}}>
+    <div class="stat-card-body">
+        {{if .Icon}}
+        <div class="stat-icon {{if .IconColor}}stat-icon-{{.IconColor}}{{end}}">
+            {{.Icon}}
+        </div>
+        {{end}}
+        <div class="stat-content">
+            <div class="stat-value {{if .ValueColor}}stat-value-{{.ValueColor}}{{end}}">
+                {{.Value}}
+                {{if .Trend}}
+                <span class="stat-trend {{if eq .Trend.Direction "up"}}trend-up{{else if eq .Trend.Direction "down"}}trend-down{{else}}trend-neutral{{end}}">
+                    {{if eq .Trend.Direction "up"}}↗️{{else if eq .Trend.Direction "down"}}↘️{{else}}→{{end}}
+                    {{.Trend.Value}}
+                </span>
+                {{end}}
+            </div>
+            <div class="stat-label">{{.Label}}</div>
+            {{if .Sublabel}}
+            <div class="stat-sublabel">{{.Sublabel}}</div>
+            {{end}}
+        </div>
+        {{if .Actions}}
+        <div class="stat-actions">
+            {{range .Actions}}
+            <button type="button" class="btn btn-sm {{.Class}}" {{if .Action}}data-action="{{.Action}}"{{end}}>
+                {{.Text}}
+            </button>
+            {{end}}
+        </div>
+        {{end}}
+    </div>
+    {{if .ShowProgress}}
+    <div class="stat-progress">
+        <div class="stat-progress-bar {{if .ProgressColor}}progress-{{.ProgressColor}}{{end}}" style="width: {{.Progress}}%"></div>
+    </div>
+    {{end}}
+</div>
+{{end}}

@@ -1,0 +1,394 @@
+/* Theme System for Site Inspection Manager */
+
+/* ==========================================================================
+   THEME SWITCHING UTILITIES
+   ========================================================================== */
+
+/* Theme toggle button */
+.theme-toggle {
+  position: relative;
+  width: 60px;
+  height: 32px;
+  background-color: var(--bg-secondary);
+  border: 2px solid var(--border-default);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  overflow: hidden;
+}
+
+.theme-toggle:hover {
+  border-color: var(--primary);
+}
+
+.theme-toggle-slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  background-color: var(--text-primary);
+  border-radius: 50%;
+  transition: transform var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.theme-toggle-slider::before {
+  content: '☀️';
+}
+
+[data-theme="dark"] .theme-toggle-slider {
+  transform: translateX(28px);
+}
+
+[data-theme="dark"] .theme-toggle-slider::before {
+  content: '🌙';
+}
+
+/* ==========================================================================
+   PREDEFINED THEMES
+   ========================================================================== */
+
+/* Corporate Blue Theme */
+[data-theme="corporate"] {
+  --primary: #1e40af;
+  --primary-dark: #1e3a8a;
+  --success: #059669;
+  --warning: #d97706;
+  --danger: #dc2626;
+  
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-tertiary: #e2e8f0;
+  
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+  
+  --border-light: #e2e8f0;
+  --border-default: #cbd5e1;
+  --border-strong: #94a3b8;
+  
+  --card-bg: #ffffff;
+  --modal-bg: #ffffff;
+}
+
+/* Safety Orange Theme */
+[data-theme="safety"] {
+  --primary: #ea580c;
+  --primary-dark: #c2410c;
+  --success: #16a34a;
+  --warning: #ca8a04;
+  --danger: #dc2626;
+  
+  --bg-primary: #fffbeb;
+  --bg-secondary: #fef3c7;
+  --bg-tertiary: #fed7aa;
+  
+  --text-primary: #9a3412;
+  --text-secondary: #c2410c;
+  --text-tertiary: #ea580c;
+  
+  --border-light: #fed7aa;
+  --border-default: #fdba74;
+  --border-strong: #fb923c;
+  
+  --card-bg: #ffffff;
+  --modal-bg: #ffffff;
+}
+
+/* High Contrast Theme */
+[data-theme="high-contrast"] {
+  --primary: #000000;
+  --primary-dark: #000000;
+  --success: #008000;
+  --warning: #ff8c00;
+  --danger: #ff0000;
+  
+  --bg-primary: #ffffff;
+  --bg-secondary: #f0f0f0;
+  --bg-tertiary: #e0e0e0;
+  
+  --text-primary: #000000;
+  --text-secondary: #000000;
+  --text-tertiary: #333333;
+  
+  --border-light: #000000;
+  --border-default: #000000;
+  --border-strong: #000000;
+  
+  --card-bg: #ffffff;
+  --modal-bg: #ffffff;
+}
+
+/* Dark High Contrast Theme */
+[data-theme="dark-high-contrast"] {
+  --primary: #ffffff;
+  --primary-dark: #ffffff;
+  --success: #00ff00;
+  --warning: #ffff00;
+  --danger: #ff0000;
+  
+  --bg-primary: #000000;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #333333;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #ffffff;
+  --text-tertiary: #cccccc;
+  
+  --border-light: #ffffff;
+  --border-default: #ffffff;
+  --border-strong: #ffffff;
+  
+  --card-bg: #000000;
+  --modal-bg: #000000;
+}
+
+/* Construction Theme */
+[data-theme="construction"] {
+  --primary: #facc15;
+  --primary-dark: #eab308;
+  --success: #22c55e;
+  --warning: #f97316;
+  --danger: #ef4444;
+  
+  --bg-primary: #fffbeb;
+  --bg-secondary: #fef3c7;
+  --bg-tertiary: #fed7aa;
+  
+  --text-primary: #78350f;
+  --text-secondary: #92400e;
+  --text-tertiary: #a16207;
+  
+  --border-light: #fed7aa;
+  --border-default: #fdba74;
+  --border-strong: #fb923c;
+  
+  --card-bg: #ffffff;
+  --modal-bg: #ffffff;
+}
+
+/* ==========================================================================
+   THEME-SPECIFIC COMPONENT OVERRIDES
+   ========================================================================== */
+
+/* Safety theme specific styles */
+[data-theme="safety"] .btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  font-weight: 600;
+}
+
+[data-theme="safety"] .status-active::before {
+  background-color: var(--success);
+}
+
+[data-theme="safety"] .notification-warning {
+  background-color: #fff7ed;
+  border-color: var(--warning);
+  color: #9a3412;
+}
+
+/* High contrast theme adjustments */
+[data-theme="high-contrast"] .btn,
+[data-theme="dark-high-contrast"] .btn {
+  border-width: 2px;
+  font-weight: bold;
+}
+
+[data-theme="high-contrast"] .card,
+[data-theme="dark-high-contrast"] .card {
+  border-width: 2px;
+}
+
+[data-theme="high-contrast"] .modal-content,
+[data-theme="dark-high-contrast"] .modal-content {
+  border-width: 3px;
+}
+
+/* Construction theme specifics */
+[data-theme="construction"] .app-header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: var(--text-primary);
+}
+
+[data-theme="construction"] .nav-link.active {
+  background-color: var(--primary);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   THEME PRESETS SELECTOR
+   ========================================================================== */
+
+.theme-selector {
+  position: relative;
+  display: inline-block;
+}
+
+.theme-selector-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 200px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  z-index: var(--z-dropdown);
+  display: none;
+  padding: var(--space-2) 0;
+  margin-top: var(--space-1);
+}
+
+.theme-selector-dropdown.active {
+  display: block;
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.theme-option:hover {
+  background-color: var(--bg-secondary);
+}
+
+.theme-option.active {
+  background-color: var(--primary);
+  color: var(--text-inverse);
+}
+
+.theme-preview {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-sm);
+  margin-right: var(--space-3);
+  border: 1px solid var(--border-default);
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-preview::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+}
+
+.theme-preview::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+}
+
+/* Theme preview colors */
+.theme-preview[data-theme="light"]::before { background: #ffffff; }
+.theme-preview[data-theme="light"]::after { background: #2563eb; }
+
+.theme-preview[data-theme="dark"]::before { background: #111827; }
+.theme-preview[data-theme="dark"]::after { background: #60a5fa; }
+
+.theme-preview[data-theme="corporate"]::before { background: #f8fafc; }
+.theme-preview[data-theme="corporate"]::after { background: #1e40af; }
+
+.theme-preview[data-theme="safety"]::before { background: #fffbeb; }
+.theme-preview[data-theme="safety"]::after { background: #ea580c; }
+
+.theme-preview[data-theme="high-contrast"]::before { background: #ffffff; }
+.theme-preview[data-theme="high-contrast"]::after { background: #000000; }
+
+.theme-preview[data-theme="dark-high-contrast"]::before { background: #000000; }
+.theme-preview[data-theme="dark-high-contrast"]::after { background: #ffffff; }
+
+.theme-preview[data-theme="construction"]::before { background: #fffbeb; }
+.theme-preview[data-theme="construction"]::after { background: #facc15; }
+
+/* ==========================================================================
+   THEME PERSISTENCE & ANIMATION
+   ========================================================================== */
+
+/* Smooth theme transitions */
+* {
+  transition: background-color var(--transition-fast),
+              border-color var(--transition-fast),
+              color var(--transition-fast);
+}
+
+/* Disable transitions during theme change to avoid flash */
+.theme-changing * {
+  transition: none !important;
+}
+
+/* Theme loading state */
+.theme-loading {
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.theme-loaded {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   RESPONSIVE THEME ADJUSTMENTS
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .theme-toggle {
+    width: 48px;
+    height: 28px;
+  }
+  
+  .theme-toggle-slider {
+    width: 20px;
+    height: 20px;
+    top: 2px;
+    left: 2px;
+  }
+  
+  [data-theme="dark"] .theme-toggle-slider {
+    transform: translateX(20px);
+  }
+  
+  .theme-selector-dropdown {
+    right: auto;
+    left: 0;
+    min-width: 180px;
+  }
+}
+
+/* ==========================================================================
+   PRINT THEME OVERRIDES
+   ========================================================================== */
+
+@media print {
+  * {
+    background: white !important;
+    color: black !important;
+    border-color: black !important;
+  }
+  
+  .theme-toggle,
+  .theme-selector {
+    display: none !important;
+  }
+}

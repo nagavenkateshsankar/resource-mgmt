@@ -1,0 +1,79 @@
+{{define "notification"}}
+<div class="notification notification-{{if .Type}}{{.Type}}{{else}}info{{end}} {{if .Dismissible}}notification-dismissible{{end}}" 
+     id="{{.ID}}" 
+     role="alert"
+     {{if .AutoHide}}data-auto-hide="{{.AutoHide}}"{{end}}>
+    <div class="notification-content">
+        <div class="notification-icon">
+            {{if eq .Type "success"}}✅
+            {{else if eq .Type "error"}}❌
+            {{else if eq .Type "warning"}}⚠️
+            {{else if eq .Type "info"}}ℹ️
+            {{else}}📢{{end}}
+        </div>
+        <div class="notification-body">
+            {{if .Title}}
+            <div class="notification-title">{{.Title}}</div>
+            {{end}}
+            <div class="notification-message">{{.Message}}</div>
+            {{if .Actions}}
+            <div class="notification-actions">
+                {{range .Actions}}
+                <button type="button" class="btn btn-sm {{.Class}}" {{if .Action}}data-action="{{.Action}}"{{end}}>
+                    {{.Text}}
+                </button>
+                {{end}}
+            </div>
+            {{end}}
+        </div>
+        {{if .Dismissible}}
+        <button type="button" class="notification-close" data-notification-close="{{.ID}}" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{end}}
+    </div>
+    {{if .ShowProgress}}
+    <div class="notification-progress">
+        <div class="notification-progress-bar" style="width: {{if .Progress}}{{.Progress}}{{else}}0{{end}}%"></div>
+    </div>
+    {{end}}
+</div>
+{{end}}
+
+{{define "toast-notification"}}
+<div class="toast toast-{{if .Type}}{{.Type}}{{else}}info{{end}}" 
+     id="{{.ID}}" 
+     role="alert" 
+     aria-live="assertive" 
+     aria-atomic="true"
+     {{if .AutoHide}}data-auto-hide="{{.AutoHide}}"{{end}}>
+    <div class="toast-header">
+        <span class="toast-icon">
+            {{if eq .Type "success"}}✅
+            {{else if eq .Type "error"}}❌
+            {{else if eq .Type "warning"}}⚠️
+            {{else if eq .Type "info"}}ℹ️
+            {{else}}📢{{end}}
+        </span>
+        <strong class="toast-title">{{if .Title}}{{.Title}}{{else}}Notification{{end}}</strong>
+        {{if .Timestamp}}
+        <small class="toast-timestamp">{{.Timestamp}}</small>
+        {{end}}
+        <button type="button" class="toast-close" data-toast-close="{{.ID}}" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body">
+        {{.Message}}
+        {{if .Actions}}
+        <div class="toast-actions">
+            {{range .Actions}}
+            <button type="button" class="btn btn-sm {{.Class}}" {{if .Action}}data-action="{{.Action}}"{{end}}>
+                {{.Text}}
+            </button>
+            {{end}}
+        </div>
+        {{end}}
+    </div>
+</div>
+{{end}}

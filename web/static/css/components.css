@@ -1,0 +1,102 @@
+/* Component Library CSS - Import all component styles */
+
+/* Design System Foundation */
+@import 'design-system.css';
+@import 'themes.css';
+@import 'icons.css';
+
+/* Core Components */
+@import 'components/buttons.css';
+@import 'components/forms.css';
+@import 'components/cards.css';
+@import 'components/modals.css';
+@import 'components/notifications.css';
+@import 'components/data-table.css';
+
+/* Layout Components */
+@import 'components/header.css';
+@import 'components/navigation.css';
+@import 'components/template-builder.css';
+
+/* Additional component utilities */
+.component-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+}
+
+.component-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: var(--danger);
+    text-align: center;
+}
+
+.component-error-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.component-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.component-empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+}
+
+.component-empty-message {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+}
+
+.component-empty-description {
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive grid system for components */
+.component-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.grid-cols-1 { grid-template-columns: 1fr; }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 768px) {
+    .grid-cols-2,
+    .grid-cols-3,
+    .grid-cols-4 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .grid-cols-3,
+    .grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Component spacing utilities */
+.component-spacing-sm { gap: 0.5rem; }
+.component-spacing-md { gap: 1rem; }
+.component-spacing-lg { gap: 1.5rem; }
+.component-spacing-xl { gap: 2rem; }

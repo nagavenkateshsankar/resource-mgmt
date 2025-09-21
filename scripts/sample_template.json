@@ -1,0 +1,175 @@
+{
+  "name": "Building Safety Inspection",
+  "description": "Comprehensive building safety inspection checklist",
+  "category": "Safety",
+  "fields_schema": {
+    "sections": [
+      {
+        "name": "General Information",
+        "description": "Basic information about the building and inspection",
+        "fields": [
+          {
+            "name": "building_type",
+            "label": "Building Type",
+            "type": "select",
+            "required": true,
+            "options": ["Residential", "Commercial", "Industrial", "Mixed Use"]
+          },
+          {
+            "name": "construction_year",
+            "label": "Year of Construction",
+            "type": "number",
+            "required": true,
+            "min": 1900,
+            "max": 2024
+          },
+          {
+            "name": "floor_count",
+            "label": "Number of Floors",
+            "type": "number",
+            "required": true,
+            "min": 1
+          },
+          {
+            "name": "occupancy_capacity",
+            "label": "Maximum Occupancy",
+            "type": "number",
+            "help": "Maximum number of people allowed in the building"
+          }
+        ]
+      },
+      {
+        "name": "Fire Safety",
+        "description": "Fire safety systems and equipment inspection",
+        "fields": [
+          {
+            "name": "fire_alarms",
+            "label": "Fire Alarm System",
+            "type": "radio",
+            "required": true,
+            "options": ["Working", "Needs Repair", "Not Present"]
+          },
+          {
+            "name": "smoke_detectors",
+            "label": "Smoke Detectors",
+            "type": "checkbox",
+            "options": ["Present", "Working", "Batteries OK", "Clean"]
+          },
+          {
+            "name": "fire_extinguishers",
+            "label": "Fire Extinguishers Status",
+            "type": "select",
+            "required": true,
+            "options": ["All Present & Charged", "Some Missing", "Needs Recharging", "Expired"]
+          },
+          {
+            "name": "emergency_exits",
+            "label": "Emergency Exits",
+            "type": "radio",
+            "required": true,
+            "options": ["Clear & Marked", "Blocked", "Poorly Marked", "Not Working"]
+          },
+          {
+            "name": "fire_safety_notes",
+            "label": "Fire Safety Notes",
+            "type": "textarea",
+            "placeholder": "Any additional fire safety observations...",
+            "rows": 3
+          }
+        ]
+      },
+      {
+        "name": "Electrical Systems",
+        "description": "Electrical safety and compliance check",
+        "fields": [
+          {
+            "name": "electrical_panel",
+            "label": "Electrical Panel Condition",
+            "type": "radio",
+            "required": true,
+            "options": ["Good", "Fair", "Poor", "Unsafe"]
+          },
+          {
+            "name": "wiring_condition",
+            "label": "Wiring Condition",
+            "type": "select",
+            "required": true,
+            "options": ["Excellent", "Good", "Needs Attention", "Immediate Repair Required"]
+          },
+          {
+            "name": "gfci_outlets",
+            "label": "GFCI Protection",
+            "type": "checkbox",
+            "options": ["Kitchen", "Bathrooms", "Outdoor", "Basement", "All Working"]
+          },
+          {
+            "name": "electrical_hazards",
+            "label": "Electrical Hazards Present",
+            "type": "checkbox",
+            "options": ["Exposed Wiring", "Overloaded Circuits", "Water Near Electrical", "Damaged Outlets"]
+          }
+        ]
+      },
+      {
+        "name": "Structural Integrity",
+        "description": "Building structure and safety assessment",
+        "fields": [
+          {
+            "name": "foundation_condition",
+            "label": "Foundation Condition",
+            "type": "radio",
+            "required": true,
+            "options": ["Excellent", "Good", "Minor Issues", "Major Concerns"]
+          },
+          {
+            "name": "structural_issues",
+            "label": "Structural Issues Observed",
+            "type": "checkbox",
+            "options": ["Cracks in Walls", "Sagging Floors", "Damaged Beams", "Water Damage", "None"]
+          },
+          {
+            "name": "roof_condition",
+            "label": "Roof Condition",
+            "type": "select",
+            "required": true,
+            "options": ["Excellent", "Good", "Needs Minor Repair", "Major Repair Required", "Replacement Needed"]
+          }
+        ]
+      },
+      {
+        "name": "Documentation",
+        "description": "Photos and additional documentation",
+        "fields": [
+          {
+            "name": "inspection_photos",
+            "label": "Inspection Photos",
+            "type": "file",
+            "accept": "image/*",
+            "multiple": true,
+            "help": "Upload photos of any issues or areas of concern"
+          },
+          {
+            "name": "additional_documents",
+            "label": "Additional Documents",
+            "type": "file",
+            "accept": ".pdf,.doc,.docx",
+            "multiple": true
+          },
+          {
+            "name": "overall_notes",
+            "label": "Overall Inspection Notes",
+            "type": "textarea",
+            "placeholder": "General observations, recommendations, or concerns...",
+            "rows": 5
+          },
+          {
+            "name": "next_inspection_date",
+            "label": "Recommended Next Inspection",
+            "type": "date",
+            "help": "When should the next inspection be scheduled?"
+          }
+        ]
+      }
+    ]
+  }
+}

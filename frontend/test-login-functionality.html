@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Functionality Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .form-group {
+            margin: 10px 0;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        #results {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔐 Login Functionality Test</h1>
+
+    <div class="test-section info">
+        <h3>📋 Test Overview</h3>
+        <p>This page tests the login functionality that was just fixed. The following issues were addressed:</p>
+        <ul>
+            <li>✅ Added comprehensive debug logging to track form submission</li>
+            <li>✅ Enhanced error handling and user feedback</li>
+            <li>✅ Added form validation debugging</li>
+            <li>✅ Improved button click event handling</li>
+            <li>✅ Pre-filled test credentials (john@gmail.com / password)</li>
+        </ul>
+    </div>
+
+    <div class="test-section warning">
+        <h3>⚠️ Prerequisites</h3>
+        <p><strong>Before testing, ensure:</strong></p>
+        <ol>
+            <li>Backend server is running on port 3007</li>
+            <li>Frontend dev server will be started on port 5173</li>
+            <li>Browser console is open to see debug messages</li>
+        </ol>
+    </div>
+
+    <div class="test-section">
+        <h3>🧪 Quick API Test</h3>
+        <div class="form-group">
+            <label>Test Email:</label>
+            <input type="email" id="testEmail" value="john@gmail.com">
+        </div>
+        <div class="form-group">
+            <label>Test Password:</label>
+            <input type="password" id="testPassword" value="password">
+        </div>
+        <button onclick="testBackendAPI()">Test Backend API Directly</button>
+        <button onclick="openLoginPage()">Open Login Page</button>
+        <button onclick="clearResults()">Clear Results</button>
+    </div>
+
+    <div class="test-section">
+        <h3>📊 Test Results</h3>
+        <div id="results"></div>
+    </div>
+
+    <div class="test-section info">
+        <h3>🔍 Expected Console Logs on Login Page</h3>
+        <p>When you click the login button, you should see these logs in the browser console:</p>
+        <pre>🚀 LoginView mounted
+📊 Initial state: {credentials: {...}, isLoading: false, ...}
+🔍 Form validation check: {email: true, password: true, isValid: true}
+🖱️ Button clicked! {isDisabled: false, isLoading: false, isFormValid: true}
+📋 Form submit event triggered! {preventDefault: false, type: "submit"}
+🚀 handleLogin function called
+📝 Form data: {email: "john@gmail.com", password: "***", ...}
+🔄 Calling auth store login...
+🔄 Starting login process...
+📥 Login API response: {...}
+🔑 Extracted token: EXISTS
+👤 Extracted user: EXISTS
+💾 Token stored in localStorage: SUCCESS
+✅ Login process completed successfully
+📊 Login result: {success: true}
+✅ Login successful, redirecting...
+🔀 Redirecting to: /dashboard</pre>
+    </div>
+
+    <script>
+        function addResult(message, type = 'info') {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `test-section ${type}`;
+            div.innerHTML = `
+                <small>${new Date().toLocaleTimeString()}</small>
+                <div>${message}</div>
+            `;
+            results.appendChild(div);
+            results.scrollTop = results.scrollHeight;
+        }
+
+        async function testBackendAPI() {
+            const email = document.getElementById('testEmail').value;
+            const password = document.getElementById('testPassword').value;
+
+            addResult('🔄 Testing backend API...', 'info');
+
+            try {
+                const response = await fetch('http://localhost:3007/api/v1/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    addResult(`✅ Backend API Success!<br>
+                        <strong>Token:</strong> ${data.token ? 'EXISTS' : 'MISSING'}<br>
+                        <strong>User:</strong> ${data.user?.name || 'Unknown'}<br>
+                        <strong>Role:</strong> ${data.user?.role || 'Unknown'}`, 'success');
+                } else {
+                    const errorData = await response.text();
+                    addResult(`❌ Backend API Error: ${response.status} - ${errorData}`, 'error');
+                }
+            } catch (error) {
+                addResult(`❌ Network Error: ${error.message}`, 'error');
+            }
+        }
+
+        function openLoginPage() {
+            addResult('🌐 Opening login page...', 'info');
+            // We need to start the frontend first
+            startFrontend();
+        }
+
+        async function startFrontend() {
+            addResult('🚀 Starting frontend development server...', 'info');
+            addResult('⏳ This may take a moment...', 'warning');
+
+            try {
+                // Since we can't directly start npm from here, provide instructions
+                addResult(`📋 Manual Steps Required:
+                    <br>1. Open terminal in the frontend directory
+                    <br>2. Run: <code>npm run dev</code>
+                    <br>3. Wait for server to start on http://localhost:5173
+                    <br>4. Open http://localhost:5173/login in a new tab
+                    <br>5. Check browser console for debug messages
+                    <br>6. Test login with john@gmail.com / password`, 'info');
+            } catch (error) {
+                addResult(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+
+        // Initial status check
+        window.onload = function() {
+            addResult('🏁 Login functionality test page loaded', 'success');
+            addResult('✅ All fixes have been applied to LoginView.vue', 'success');
+            addResult('⚠️ Ready to test - follow the steps above', 'warning');
+        };
+    </script>
+</body>
+</html>

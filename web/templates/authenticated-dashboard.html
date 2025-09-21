@@ -1,0 +1,217 @@
+{{define "authenticated-dashboard"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}} - Site Inspection Manager</title>
+    <meta name="description" content="{{.Description}}">
+    <meta name="theme-color" content="#2563eb">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Apple PWA Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="SiteInspect">
+    <link rel="apple-touch-icon" href="/static/images/icon-192.png">
+    
+    <!-- Microsoft PWA Support -->
+    <meta name="msapplication-TileColor" content="#2563eb">
+    <meta name="msapplication-TileImage" content="/static/images/icon-192.png">
+    
+    <!-- Base Styles -->
+    <link rel="stylesheet" href="/static/css/base.css">
+    {{range .StyleSheets}}
+    <link rel="stylesheet" href="{{.}}">
+    {{end}}
+    
+    <!-- Preload critical resources -->
+    {{range .PreloadScripts}}
+    <link rel="preload" href="{{.}}" as="script">
+    {{end}}
+</head>
+<body class="{{.BodyClass}}">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <h2>Site Inspection Manager</h2>
+        <p>Loading...</p>
+    </div>
+
+    <!-- App Container -->
+    <div id="app" class="app-container" style="display: none;">
+        <!-- Header Component -->
+        <!-- {{template "header" .}} -->
+
+        <!-- Navigation Component -->
+        <!-- {{template "navigation" .}} -->
+
+        <!-- Navigation Overlay -->
+        <div id="nav-overlay" class="nav-overlay"></div>
+
+        <!-- Main Content -->
+        <main id="main-content" class="main-content">
+            <!-- Dashboard Page -->
+            <div id="dashboard-page" class="page active">
+                <div class="page-header">
+                    <h2>Dashboard</h2>
+                    <button id="new-inspection-btn" class="btn btn-primary">
+                        ➕ New Inspection
+                    </button>
+                </div>
+                
+                <!-- Stats Cards Using New Component -->
+                <div class="component-grid grid-cols-4 component-spacing-lg">
+                    <div class="card">
+                        <h3>📊 Total Inspections</h3>
+                        <p class="stat-value">0</p>
+                        <span class="trend up">12%</span>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>✅ Completed</h3>
+                        <p class="stat-value">0</p>
+                        <span class="trend up">8%</span>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>⏳ In Progress</h3>
+                        <p class="stat-value">0</p>
+                        <span class="trend neutral">2%</span>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>⚠️ Overdue</h3>
+                        <p class="stat-value">0</p>
+                        <span class="trend down">5%</span>
+                    </div>
+                </div>
+
+                <!-- Assigned Inspections -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>🎯 My Assigned Inspections</h3>
+                        <button class="btn btn-sm btn-secondary">View All</button>
+                    </div>
+                    <div id="assigned-inspections" class="inspection-list assigned-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Recent Inspections -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>📋 Recent Inspections</h3>
+                        <button class="btn btn-sm btn-secondary">View All</button>
+                    </div>
+                    <div id="recent-inspections" class="inspection-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Floating Action Button -->
+        <button id="fab" class="fab" aria-label="New Inspection">
+            ➕
+        </button>
+    </div>
+
+    <!-- Notifications Container -->
+    <div id="notifications-container" class="notifications-container">
+        <!-- Notifications will be inserted here -->
+    </div>
+
+    <!-- Modal Container -->
+    <div id="modal-container" class="modal-container">
+        <!-- Modals will be inserted here -->
+    </div>
+    
+    <!-- Template Selection Modal will be loaded by JavaScript -->
+    
+    <!-- Base Scripts -->
+    {{range .Scripts}}
+    <script src="{{.}}"></script>
+    {{end}}
+    
+    <!-- Service Worker Registration -->
+    {{if .EnableSW}}
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                        
+                        // Check for updates every 5 minutes
+                        setInterval(() => {
+                            registration.update();
+                        }, 5 * 60 * 1000);
+                        
+                        // Listen for updates
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // New version available
+                                    if (window.app && window.app.showNotification) {
+                                        window.app.showNotification(
+                                            'App updated! Refresh to use the latest version.', 
+                                            'info',
+                                            10000
+                                        );
+                                    }
+                                }
+                            });
+                        });
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+                
+                // Get current version from service worker
+                if (navigator.serviceWorker.controller) {
+                    navigator.serviceWorker.controller.postMessage({ type: 'GET_VERSION' });
+                } else {
+                    navigator.serviceWorker.ready.then(() => {
+                        if (navigator.serviceWorker.controller) {
+                            navigator.serviceWorker.controller.postMessage({ type: 'GET_VERSION' });
+                        }
+                    });
+                }
+                
+                // Listen for service worker messages
+                navigator.serviceWorker.addEventListener('message', event => {
+                    if (event.data.type === 'SW_UPDATED') {
+                        console.log('Service Worker updated to version:', event.data.version);
+                        
+                        const versionElement = document.getElementById('app-version');
+                        if (versionElement) {
+                            versionElement.textContent = `v${event.data.version}`;
+                        }
+                        
+                        if (window.app && window.app.showNotification) {
+                            window.app.showNotification(
+                                `App updated to v${event.data.version}! Latest features available.`, 
+                                'success'
+                            );
+                        }
+                    } else if (event.data.type === 'VERSION_RESPONSE') {
+                        console.log('Current Service Worker version:', event.data.version);
+                        
+                        const versionElement = document.getElementById('app-version');
+                        if (versionElement) {
+                            versionElement.textContent = `v${event.data.version}`;
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+    {{end}}
+</body>
+</html>
+{{end}}
