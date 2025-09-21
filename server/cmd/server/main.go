@@ -2,10 +2,10 @@ package main
 
 import (
 	"log"
-	"resource-mgmt/config"
-	"resource-mgmt/pkg/utils"
-	"resource-mgmt/routes"
-	"resource-mgmt/services"
+	"resource-mgmt/shared/config"
+	"resource-mgmt/shared/utils"
+	"resource-mgmt/server/api/routes"
+	"resource-mgmt/server/core/services"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"

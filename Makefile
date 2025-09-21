@@ -13,18 +13,13 @@ help: ## Show this help message
 # Build
 build: ## Build the application
 	@echo "🔨 Building application..."
-	@go build -o bin/server cmd/server/main.go
+	@go build -o bin/server server/cmd/server/main.go
 	@echo "✅ Build complete"
 
 # Run development server
 run: ## Run the development server
 	@echo "🚀 Starting development server..."
-	@go run cmd/server/main.go
-
-# Run with old main for backward compatibility
-run-old: ## Run with old main.go
-	@echo "🚀 Starting server (old architecture)..."
-	@go run main.go
+	@go run server/cmd/server/main.go
 
 # Development with auto-reload (requires air)
 dev: ## Run development server with auto-reload
@@ -125,26 +120,26 @@ docker-dev: ## Run Docker container in development mode
 # Frontend operations
 frontend-install: ## Install frontend dependencies
 	@echo "📦 Installing frontend dependencies..."
-	@cd frontend && npm install
+	@cd client/web && npm install
 	@echo "✅ Frontend dependencies installed"
 
 frontend-dev: ## Start frontend development server
 	@echo "🎨 Starting frontend development server..."
-	@cd frontend && npm run dev
+	@cd client/web && npm run dev
 
 frontend-build: ## Build frontend for production
 	@echo "🏗️  Building frontend for production..."
-	@cd frontend && npm run build
+	@cd client/web && npm run build
 	@echo "✅ Frontend build complete"
 
 frontend-test: ## Run frontend tests
 	@echo "🧪 Running frontend tests..."
-	@cd frontend && npm run test
+	@cd client/web && npm run test
 	@echo "✅ Frontend tests complete"
 
 frontend-e2e: ## Run E2E tests
 	@echo "🎭 Running E2E tests..."
-	@cd frontend && npx playwright test
+	@cd client/web && npx playwright test
 	@echo "✅ E2E tests complete"
 
 # Full-stack development
@@ -158,8 +153,8 @@ dev-full: ## Start both backend and frontend in development mode
 	@echo "Frontend will run on http://localhost:5173"
 	@echo "Press Ctrl+C to stop both servers"
 	@trap 'kill %1 %2' INT; \
-	(PORT=3007 go run main.go) & \
-	(cd frontend && npm run dev) & \
+	(PORT=3007 go run server/cmd/server/main.go) & \
+	(cd client/web && npm run dev) & \
 	wait
 
 # Full-stack development with secure auth (recommended)
@@ -173,8 +168,8 @@ dev: ## Start both backend and frontend with authentication (default development
 	@echo "Frontend will run on http://localhost:5173"
 	@echo "Press Ctrl+C to stop both servers"
 	@trap 'kill %1 %2' INT; \
-	(export DB_HOST=nagaizingamacbookair.local && export DB_USER=root && export DB_PASSWORD= && export DB_NAME=resourcedb && export DB_PORT=26257 && export JWT_SECRET="test_jwt_secret_for_security_validation_with_sufficient_length_64_chars" && export ENVIRONMENT="test" && PORT=3007 go run main.go) & \
-	(cd frontend && npm run dev) & \
+	(export DB_HOST=nagaizingamacbookair.local && export DB_USER=root && export DB_PASSWORD= && export DB_NAME=resourcedb && export DB_PORT=26257 && export JWT_SECRET="test_jwt_secret_for_security_validation_with_sufficient_length_64_chars" && export ENVIRONMENT="test" && PORT=3007 go run server/cmd/server/main.go) & \
+	(cd client/web && npm run dev) & \
 	wait
 
 # Full-stack development with secure auth (alias for backwards compatibility)
@@ -194,7 +189,7 @@ pwa-test: ## Test PWA functionality
 # Production
 prod-build: ## Build for production
 	@echo "🏭 Building for production..."
-	@CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/server cmd/server/main.go
+	@CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/server server/cmd/server/main.go
 	@echo "✅ Production build complete"
 
 # Health checks
